@@ -1,0 +1,40 @@
+2023-04-26 09:59:45.063  INFO 9796 --- [restartedMain] mis.com.MisApplication                   : Starting MisApplication using Java 11.0.13 on DESKTOP-V6H2HI8 with PID 9796 (D:\ShivTell WorkSpace\MIS\target\classes started by Rahul in D:\ShivTell WorkSpace\MIS)
+2023-04-26 09:59:45.066  INFO 9796 --- [restartedMain] mis.com.MisApplication                   : The following 1 profile is active: "dev"
+2023-04-26 09:59:45.259  INFO 9796 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-04-26 09:59:45.264  INFO 9796 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-04-26 09:59:47.399  INFO 9796 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-04-26 09:59:47.830  INFO 9796 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 411 ms. Found 5 JPA repository interfaces.
+2023-04-26 09:59:48.632  INFO 9796 --- [restartedMain] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2023-04-26 09:59:48.653  INFO 9796 --- [restartedMain] faultConfiguringBeanFactoryPostProcessor : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2023-04-26 09:59:49.418  INFO 9796 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.integration.config.IntegrationManagementConfiguration' of type [org.springframework.integration.config.IntegrationManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-04-26 09:59:49.437  INFO 9796 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'integrationChannelResolver' of type [org.springframework.integration.support.channel.BeanFactoryChannelResolver] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-04-26 09:59:51.241  INFO 9796 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2023-04-26 09:59:51.271  INFO 9796 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-04-26 09:59:51.274  INFO 9796 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2023-04-26 09:59:51.547  INFO 9796 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-04-26 09:59:51.548  INFO 9796 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6280 ms
+2023-04-26 09:59:51.887  INFO 9796 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-04-26 09:59:52.082  INFO 9796 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.10.Final
+2023-04-26 09:59:52.512  INFO 9796 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-04-26 09:59:52.754  INFO 9796 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-04-26 09:59:53.185  INFO 9796 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-04-26 09:59:53.240  INFO 9796 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-04-26 09:59:54.823  INFO 9796 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-04-26 09:59:54.836  INFO 9796 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-04-26 09:59:56.550  WARN 9796 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-04-26 09:59:56.777  INFO 9796 --- [restartedMain] uration$$EnhancerBySpringCGLIB$$c778f808 : Message from the que
+2023-04-26 09:59:56.780  INFO 9796 --- [restartedMain] uration$$EnhancerBySpringCGLIB$$c778f808 : ThreadPoolTaskExecutor set for the Application.
+2023-04-26 09:59:56.895  INFO 9796 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-04-26 09:59:57.676  INFO 9796 --- [restartedMain] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2023-04-26 09:59:57.676  INFO 9796 --- [restartedMain] o.s.i.channel.PublishSubscribeChannel    : Channel 'MIS.errorChannel' has 1 subscriber(s).
+2023-04-26 09:59:57.677  INFO 9796 --- [restartedMain] o.s.i.endpoint.EventDrivenConsumer       : started bean '_org.springframework.integration.errorLogger'
+2023-04-26 09:59:57.754  INFO 9796 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2023-04-26 09:59:58.283  INFO 9796 --- [restartedMain] mis.com.MisApplication                   : Started MisApplication in 14.461 seconds (JVM running for 16.931)
+2023-04-26 10:00:50.969  INFO 9796 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2023-04-26 10:00:51.508  INFO 9796 --- [Thread-4] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-04-26 10:00:51.529  INFO 9796 --- [Thread-4] o.s.i.endpoint.EventDrivenConsumer       : Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2023-04-26 10:00:51.529  INFO 9796 --- [Thread-4] o.s.i.channel.PublishSubscribeChannel    : Channel 'MIS.errorChannel' has 0 subscriber(s).
+2023-04-26 10:00:51.530  INFO 9796 --- [Thread-4] o.s.i.endpoint.EventDrivenConsumer       : stopped bean '_org.springframework.integration.errorLogger'
+2023-04-26 10:00:51.548  INFO 9796 --- [Thread-4] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-04-26 10:00:51.553  INFO 9796 --- [Thread-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-04-26 10:00:51.582  INFO 9796 --- [Thread-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
