@@ -83,8 +83,7 @@ public class MISReportController {
 		return new Gson().toJson(data).toString();
 	}
 
-	@PostMapping(value = "/uploadMISReportMappingFile", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE,
-			MediaType.APPLICATION_JSON_VALUE })
+	@PostMapping(value = "/uploadMISReportMappingFile", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public String uploadUserIpMappingFile(@RequestPart("file") MultipartFile file) throws IOException {
 
 		DataContainer data = new DataContainer();

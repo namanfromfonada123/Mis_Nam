@@ -33,7 +33,6 @@ public class PasswordValidator {
 
 	/**
 	 * Validate.
-	 *
 	 * @param password the password
 	 * @return true, if successful
 	 */

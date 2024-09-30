@@ -20,4 +20,8 @@ public interface EmailRepository extends JpaRepository<EmailEntity, Integer> {
 	@Query(value = "select * from email where is_active=1 and reports=:reports", nativeQuery = true)
 	List<EmailEntity> findAllByIsActiveAndReports(@Param("reports") String reports);
 
+	
+	@Query(value = "select * from email where is_active=1 and reports=:reports limit 1", nativeQuery = true)
+	EmailEntity findEmailByIsActiveAndReports(@Param("reports") String reports);
+	
 }

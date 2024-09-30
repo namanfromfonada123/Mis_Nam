@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+
 
 @Entity
 @Table(name = "email")
@@ -15,6 +17,8 @@ public class EmailEntity {
 	@Column(name = "id")
 	private Integer id;
 	private String reports;
+	
+	
 	private String mail_to;
 	private String cc;
 	private String bcc;

@@ -3,24 +3,19 @@ package mis.com.Naman.Service;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 import mis.com.Naman.pojos.ClientWiseReport;
-import mis.com.repository.MisCallDetailsSummaryRepository;
-import mis.com.utils.DateUtils;
+
 
 @Service
 public class ConvertHTMLFormatToSendEmail {
-	@Autowired
-	private ClientWiseReportService clientWiseReportService;
+//	@Autowired
+//	private ClientWiseReportService clientWiseReportService;
 
-	public String makeHtmlFormatForOBDReport(String client) throws ParseException {
+	public String makeHtmlFormatForOBDReport(String header, List<ClientWiseReport> ClientReportList) throws ParseException {
 		StringBuilder htmlTableBuilder = new StringBuilder();
 	   	 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -33,6 +28,9 @@ public class ConvertHTMLFormatToSendEmail {
 		Integer totalCreditsUser = 0;
 		Integer totaldigitpressed = 0;
 		double totallinstenrate = 0;
+		String formatedDate = "";
+		String ClientName= "";
+		
 
 			// open the table
 	    htmlTableBuilder.append("<html><head>")
@@ -43,12 +41,13 @@ public class ConvertHTMLFormatToSendEmail {
         .append("tr:nth-child(even) { background-color: #f2f2f2; }")
         .append("tr:hover { background-color: #ddd; }")
         .append("h4 { color: #333; }")
+        .append("p{ font-size: Bold; color : Black;}")
         .append("</style>")
-        .append("<h4>" + "Hi "+client+", Collect Your Report::<h4><br>")
+        .append("<h4>" +header +"<h4><br>")
         .append("</head><body>");
 	    
 			htmlTableBuilder.append("<table  >").append(System.lineSeparator());
-			// open a rown, header row here
+			// open a row, header row here
 			htmlTableBuilder.append("\t").append("<tr >")
 					.append(System.lineSeparator());
 			// add the headers to the header row
@@ -72,7 +71,7 @@ public class ConvertHTMLFormatToSendEmail {
 			.append(System.lineSeparator());		
 			htmlTableBuilder.append("\t").append("\t").append("<th>").append("TOTAL_BILL_SEC").append("</th>")
 			.append(System.lineSeparator());		
-
+			
 			htmlTableBuilder.append("\t").append("\t").append("<th>").append("CREDIT_USED").append("</th>")
 					.append(System.lineSeparator());
 			htmlTableBuilder.append("\t").append("\t").append("<th>").append("PANEL_NAME").append("</th>")
@@ -84,49 +83,55 @@ public class ConvertHTMLFormatToSendEmail {
 			htmlTableBuilder.append("\t").append("</tr>").append(System.lineSeparator());
 			DecimalFormat value = new DecimalFormat("#.#");
 			// add a data row for each PetrolData
-			List<ClientWiseReport> ClientWiseReports = clientWiseReportService.getClientWiseReports(client);
+//			List<ClientWiseReport> ClientWiseReports = clientWiseReportService.getClientWiseReports(client);
 	
-			System.out.println("ClientWiseReports : "+ ClientWiseReports.toString());
-						for (ClientWiseReport clientWiseReport : ClientWiseReports) {
+			System.out.println("ClientWiseReports : "+ ClientReportList.toString());
+						for (ClientWiseReport clientWiseReport : ClientReportList) {
+							
+							formatedDate = dateFormat.format(clientWiseReport.getExecution_date());
+							ClientName = clientWiseReport.getClientname();
+							
 							// open a row again
 
-							htmlTableBuilder.append("\t").append("<tr>").append(System.lineSeparator());
-							// add the data
-							htmlTableBuilder.append("\t").append("\t").append("<td>").append(  dateFormat.format(clientWiseReport.getExecution_date()) )
-									.append("</td>").append(System.lineSeparator());
-							htmlTableBuilder.append("\t").append("\t").append("<td>").append(clientWiseReport.getClientname())
-							.append("</td>").append(System.lineSeparator());
-							htmlTableBuilder.append("\t").append("\t").append("<td>").append(clientWiseReport.getUsername())
-									.append("</td>").append(System.lineSeparator());
-							htmlTableBuilder.append("\t").append("\t").append("<td>")
-									.append(Integer.valueOf(clientWiseReport.getTotalmsisdn()) ).append("</td>")
-									.append(System.lineSeparator());
-							htmlTableBuilder.append("\t").append("\t").append("<td>")
-									.append(Integer.valueOf(clientWiseReport.getValidmsisdn())).append("</td>")
-									.append(System.lineSeparator());
-							htmlTableBuilder.append("\t").append("\t").append("<td>")
-									.append(Integer.valueOf(clientWiseReport.getAttemptedcalls())).append("</td>")
-									.append(System.lineSeparator());
-							htmlTableBuilder.append("\t").append("\t").append("<td>")
-									.append(Integer.valueOf(clientWiseReport.getConnectedcalls())).append("</td>")
-									.append(System.lineSeparator());
-							//88888888888888888888888
-							htmlTableBuilder.append("\t").append("\t").append("<td>")           
-							.append(clientWiseReport.getDigitpressed()).append("</td>") 
-							.append(System.lineSeparator());       
-							htmlTableBuilder.append("\t").append("\t").append("<td>")           
-							.append(Math.round(clientWiseReport.getListenrate())+"%").append("</td>") 
-							.append(System.lineSeparator());                      
-							////////////////////////////////////////////////////////////////////////
-							htmlTableBuilder.append("\t").append("\t").append("<td>")
-									.append(clientWiseReport.getTotalbillsec()).append("</td>")
-									.append(System.lineSeparator());
-							htmlTableBuilder.append("\t").append("\t").append("<td>")
-									.append(clientWiseReport.getCreditused()).append("</td>")
-									.append(System.lineSeparator());
-							htmlTableBuilder.append("\t").append("\t").append("<td>")
-							.append(clientWiseReport.getPanelname()).append("</td>")
-							.append(System.lineSeparator());
+//							htmlTableBuilder.append("\t").append("<tr>").append(System.lineSeparator());
+//							// add the data
+//							htmlTableBuilder.append("\t").append("\t").append("<td>").append(  dateFormat.format(clientWiseReport.getExecution_date()) )
+//									.append("</td>").append(System.lineSeparator());
+//							htmlTableBuilder.append("\t").append("\t").append("<td>").append(clientWiseReport.getClientname())
+//							.append("</td>").append(System.lineSeparator());
+//							htmlTableBuilder.append("\t").append("\t").append("<td>").append(clientWiseReport.getUsername())
+//									.append("</td>").append(System.lineSeparator());
+//							htmlTableBuilder.append("\t").append("\t").append("<td>")
+//									.append(Integer.valueOf(clientWiseReport.getTotalmsisdn()) ).append("</td>")
+//									.append(System.lineSeparator());
+//							htmlTableBuilder.append("\t").append("\t").append("<td>")
+//									.append(Integer.valueOf(clientWiseReport.getValidmsisdn())).append("</td>")
+//									.append(System.lineSeparator());
+//							htmlTableBuilder.append("\t").append("\t").append("<td>")
+//									.append(Integer.valueOf(clientWiseReport.getAttemptedcalls())).append("</td>")
+//									.append(System.lineSeparator());
+//							htmlTableBuilder.append("\t").append("\t").append("<td>")
+//									.append(Integer.valueOf(clientWiseReport.getConnectedcalls())).append("</td>")
+//									.append(System.lineSeparator());
+//							//88888888888888888888888
+//							htmlTableBuilder.append("\t").append("\t").append("<td>")           
+//							.append(clientWiseReport.getDigitpressed()).append("</td>") 
+//							.append(System.lineSeparator());       
+//							htmlTableBuilder.append("\t").append("\t").append("<td>")           
+//							.append(Math.round(clientWiseReport.getListenrate())+"%").append("</td>") 
+//							.append(System.lineSeparator());                      
+//							////////////////////////////////////////////////////////////////////////
+//							htmlTableBuilder.append("\t").append("\t").append("<td>")
+//									.append(clientWiseReport.getTotalbillsec()).append("</td>")
+//									.append(System.lineSeparator());
+//							htmlTableBuilder.append("\t").append("\t").append("<td>")
+//									.append(clientWiseReport.getCreditused()).append("</td>")
+//									.append(System.lineSeparator());
+//							htmlTableBuilder.append("\t").append("\t").append("<td>")
+//							.append(clientWiseReport.getPanelname()).append("</td>")
+//							.append(System.lineSeparator());
+
+//							htmlTableBuilder.append("\t").append("</tr>").append(System.lineSeparator());
 
 							totlalMsisdn = totlalMsisdn + (int) Math.round(Double.valueOf(clientWiseReport.getTotalmsisdn()));
 							totalValidMsisdn = totalValidMsisdn
@@ -144,13 +149,21 @@ public class ConvertHTMLFormatToSendEmail {
 							totallinstenrate = totallinstenrate
 									+  clientWiseReport.getListenrate();
 							
-							htmlTableBuilder.append("\t").append("</tr>").append(System.lineSeparator());
 						}
 						htmlTableBuilder.append("\t").append("<tr >")
 								.append(System.lineSeparator());
-						htmlTableBuilder.append("\t").append("\t").append("<td colspan=\"3\">").append("Total").append("</td>")
-								.append(System.lineSeparator());
+						
+//						htmlTableBuilder.append("\t").append("\t").append("<td colspan=\"3\">").append("Total").append("</td>")
+//								.append(System.lineSeparator());
 				
+						htmlTableBuilder.append("\t").append("\t").append("<td>").append(formatedDate).append("</td>")
+						.append(System.lineSeparator());
+						
+						htmlTableBuilder.append("\t").append("\t").append("<td>").append(ClientName).append("</td>")
+						.append(System.lineSeparator());
+						
+				htmlTableBuilder.append("\t").append("\t").append("<td>").append("All User")
+						.append("</td>").append(System.lineSeparator());
 						
 						htmlTableBuilder.append("\t").append("\t").append("<td>").append(totlalMsisdn).append("</td>")
 								.append(System.lineSeparator());
@@ -162,7 +175,7 @@ public class ConvertHTMLFormatToSendEmail {
 								.append("</td>").append(System.lineSeparator());
 						htmlTableBuilder.append("\t").append("\t").append("<td>").append(totaldigitpressed)
 						.append("</td>").append(System.lineSeparator());
-						htmlTableBuilder.append("\t").append("\t").append("<td>").append(Math.round(totallinstenrate/ClientWiseReports.size())+"%")
+						htmlTableBuilder.append("\t").append("\t").append("<td>").append(Math.round(totallinstenrate/ClientReportList.size())+"%")
 						.append("</td>").append(System.lineSeparator());
 						
 						htmlTableBuilder.append("\t").append("\t").append("<td>").append(totalBillSec).append("</td>")
@@ -170,7 +183,11 @@ public class ConvertHTMLFormatToSendEmail {
 						htmlTableBuilder.append("\t").append("\t").append("<td>").append(totalCreditsUser)
 								.append("</td>").append(System.lineSeparator());
 						
-						htmlTableBuilder.append("\t").append("\t").append("<td>");
+						htmlTableBuilder.append("\t").append("\t").append("<td>")
+						.append("All Panel").append("</td>")
+						.append(System.lineSeparator());
+						
+//						htmlTableBuilder.append("\t").append("\t").append("<td>");
 //								.append(Float.valueOf(totalConnectedCalls) / totalValidMsisdn * 100))
 //										+ "%")
 //						if (totalValidMsisdn!=0) {
@@ -189,6 +206,8 @@ public class ConvertHTMLFormatToSendEmail {
 
 			htmlTableBuilder.append("</table></body>");
 		
+			htmlTableBuilder.append("<p>This is an automated report and may differ slightly from the final monthly billing data<p>");
+			
 		htmlTableBuilder.append("<head>").append("<h4>Thanks & Regards<h4>").append("</head>").append("<body>");
 
 		// then print the result

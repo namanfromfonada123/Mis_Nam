@@ -1,5 +1,6 @@
 package mis.com.Naman.Service;
 
+import mis.com.Naman.ApiCall.BackendApiCall;
 import mis.com.Naman.Modal.CallData;
 import mis.com.Naman.Modal.username_client_mapping;
 import mis.com.Naman.repository.ReportRepository;
@@ -25,76 +26,96 @@ import java.util.Optional;
 @Service
 public class CsvService {
 
-    @Autowired
-    private ReportRepository ReportRepository;
+	@Autowired
+	private ReportRepository ReportRepository;
 
-    @Autowired
-    private userClientRepository uClientRepository;
+	@Autowired
+	private userClientRepository uClientRepository;
+	
+	@Autowired
+	BackendApiCall backendApiCall;
 
-    public void readCsvAndSaveToDatabase(String filePath) throws IOException, ParseException {
-        File file = new File(filePath);
-        Path sourcePath = file.toPath();
-if (file.exists()) {
-        try (FileReader reader = new FileReader(file);
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+	public void readCsvAndSaveToDatabase(String filePath) throws IOException, ParseException {
+		File file = new File(filePath);
+		Path sourcePath = file.toPath();
+		if (file.exists()) {
+			try (FileReader reader = new FileReader(file);
+					CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            for (CSVRecord csvRecord : csvParser) {
-                CallData callData = new CallData();
-                callData.setExecutionDate(dateFormat.parse( csvRecord.get("EXECUTION_DATE")));
-                
-                callData.setUserName(csvRecord.get("USER_NAME"));
-                callData.setTotalMsisdn(Integer.parseInt(csvRecord.get("TOTAL_MSISDN")));
-                callData.setValidMsisdn(Integer.parseInt(csvRecord.get("VALID_MSISDN")));
-                callData.setAttemptedCalls(Integer.parseInt(csvRecord.get("ATTEMPTED_CALLS")));
-                callData.setConnectedCalls(Integer.parseInt(csvRecord.get("CONNECTED_CALLS")));
-                callData.setDigitPressed(Integer.parseInt(csvRecord.get("DIGIT_PRESSED")));
-                callData.setListenRate(Double.parseDouble(csvRecord.get("LISTEN_RATE")));
-                callData.setTotalBillSec(Integer.parseInt(csvRecord.get("TOTAL_BILL_SEC")));
-                callData.setCreditUsed(Integer.parseInt(csvRecord.get("CREDIT_USED")));
-                callData.setPanelName(csvRecord.get("PANEL_NAME"));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				for (CSVRecord csvRecord : csvParser) {
+					CallData callData = new CallData();
 
-                String panelName = csvRecord.get("PANEL_NAME");
-                String username = csvRecord.get("USER_NAME");
-               Optional<username_client_mapping> clientUserNameMapping = uClientRepository.findByPanel_nameAndUsername(panelName, username);
-//             callData.setClientName(clientName.map(username_client_mapping::getClient_name).orElse("NO_MAPPING"));
-             
-               if (clientUserNameMapping.isPresent()) {
-            	   callData.setClientName(clientUserNameMapping.get().getClient_name());
+					callData.setExecutionDate(dateFormat.parse(csvRecord.get("EXECUTION_DATE")));
+					callData.setUserName(csvRecord.get("USER_NAME"));
+					callData.setTotalMsisdn(Integer.parseInt(csvRecord.get("TOTAL_MSISDN")));
+					callData.setValidMsisdn(Integer.parseInt(csvRecord.get("VALID_MSISDN")));
+					callData.setAttemptedCalls(Integer.parseInt(csvRecord.get("ATTEMPTED_CALLS")));
+					callData.setConnectedCalls(Integer.parseInt(csvRecord.get("CONNECTED_CALLS")));
+					callData.setDigitPressed(Integer.parseInt(csvRecord.get("DIGIT_PRESSED")));
+					callData.setListenRate(Double.parseDouble(csvRecord.get("LISTEN_RATE")));
+					callData.setTotalBillSec(Integer.parseInt(csvRecord.get("TOTAL_BILL_SEC")));
+					callData.setCreditUsed(Integer.parseInt(csvRecord.get("CREDIT_USED")));
+					callData.setPanelName(csvRecord.get("PANEL_NAME"));
+
+					String panelName = csvRecord.get("PANEL_NAME");
+					String username = csvRecord.get("USER_NAME");
+					Optional<username_client_mapping> clientUserNameMapping = uClientRepository
+							.findByPanel_nameAndUsername(panelName, username);
+
+					if (clientUserNameMapping.isPresent()) {
+						callData.setClientName(clientUserNameMapping.get().getClient_name());
+					} else {
+						callData.setClientName("NO_MAPPING");
+					}
+
+					ReportRepository.insertdataToDB(callData.getAttemptedCalls(), callData.getClientName(),
+							callData.getConnectedCalls(), callData.getCreditUsed(), callData.getDigitPressed(),
+							callData.getExecutionDate(), callData.getListenRate(), callData.getPanelName(),
+							callData.getTotalBillSec(), callData.getTotalMsisdn(), callData.getUserName(),
+							callData.getValidMsisdn());
+
+				}
+
 			}
-               else {
-				callData.setClientName("NO_MAPPING");
-			}
 
-                ReportRepository.save(callData);
-            }
-            
-        }
-        
-        moveFile(sourcePath, file.getParentFile().getPath());
+			moveFile(sourcePath, file.getParentFile().getPath());
 
-}
-else {
-	System.out.println("No File Found !! ");
-}
-    }
+		} else {
+			System.out.println("No File Found !!");
+		}
+	}
 
-    private void moveFile(Path sourcePath, String archiveDir) throws IOException {
-        // Create archive directory if it doesn't exist
-        Path archiveFolder = Paths.get(archiveDir, "Misis_"+LocalDate.now().toString()+"_backup");
-        if (Files.notExists(archiveFolder)) {
-            Files.createDirectories(archiveFolder);
-        }
+	private void moveFile(Path sourcePath, String archiveDir) throws IOException {
+		// Create archive directory if it doesn't exist
+		Path archiveFolder = Paths.get(archiveDir, "Misis_" + LocalDate.now().toString() + "_backup");
+		if (Files.notExists(archiveFolder)) {
+			Files.createDirectories(archiveFolder);
+		}
 
-        // Define the destination path
-        Path destinationPath = archiveFolder.resolve(sourcePath.getFileName());
+		// Define the destination path
+		Path destinationPath = archiveFolder.resolve(sourcePath.getFileName());
 
-        // Check if the destination file already exists
-        if (Files.exists(destinationPath)) {
-            throw new IOException("File already exists in the destination directory.");
-        }
+		// Check if the destination file already exists
+		if (Files.exists(destinationPath)) {
+			throw new IOException("File already exists in the destination directory.");
+		}
 
-        // Move the file
-        Files.move(sourcePath, destinationPath);
-    }
+		// Move the file
+		Files.move(sourcePath, destinationPath);
+	}
+	
+	void SlackAlertForNoMisDataService( String panel)
+	{
+		String Error = "No Mis Data Found For  panel : "+ panel ;
+		String description ="This alert is generated when no mis data found for the above specified panel " ;
+		backendApiCall.SlackAlertforObd(Error, description);
+	}
+	
+	void SlaclAlertForNoClienUserMapping(String client, String username, String panelName)
+	{
+		String Error = "No Client Mapping : "+client+" for Username :  "+ username +" for  panel : "+ panelName ;
+		String description ="No Client Mapping : "+client+" for Username :  "+ username +" for  panel : "+ panelName ;;
+		backendApiCall.SlackAlert(Error, description);
+	}
 }

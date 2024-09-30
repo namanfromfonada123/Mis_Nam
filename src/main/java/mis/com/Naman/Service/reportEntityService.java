@@ -35,7 +35,7 @@ public class reportEntityService {
 			        if (fileEntry.isDirectory()) {
 			            continue;
 			        } else {
-			            if(fileEntry.getName().contains(".csv"))
+			            if(fileEntry.getName().endsWith(".csv"))
 			            	filepath.add(fileEntry.getPath());
 			        }
 			    }
@@ -46,12 +46,13 @@ public class reportEntityService {
 	{
 		File folder = new File(folderPath);
 		
-		logger.info("Path of misis file : "+ folder.getPath());
+		logger.info("Path of mis file : "+ folder.getPath());
 		
 		List<String> filepaths = this.listFilesForFolder(folder);
 		
 		for(String filepath: filepaths)
 		{			
+			logger.info("File Name : {} "+ filepath);
 			csvService.readCsvAndSaveToDatabase(filepath);
 		}
 		

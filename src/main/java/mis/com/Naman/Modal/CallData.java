@@ -8,18 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "call_data")
+@Table(name = "call_data" , uniqueConstraints = { @UniqueConstraint(columnNames = {"executionDate","userName","clientName","panelName"}) })
 public class CallData {
 
     @Id
@@ -28,7 +24,7 @@ public class CallData {
 
     @Column(name = "executionDate", columnDefinition = "date DEFAULT NULL ")
     private Date executionDate;
-
+    
 	private String userName;
     private String clientName;
     private int totalMsisdn;
